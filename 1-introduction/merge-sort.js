@@ -4,34 +4,16 @@ function merge(firstArr, secondArr) {
   // first array and second arrays are two sorted arrays of length n / 2
   // returns a merged sorted array
   // assume n is even
-  let i = 0;
-  let j = 0;
-  let n = firstArr.length * 2;
-  let merged = [];
 
-  for (let k = 0; k <= n - 1; k++) {
-    // when one of the two sorted arrays is fully inserted into the merged array
-    // then insert the rest of the elements of the remaining array
-    if (j === secondArr.length || i === firstArr.length) {
-      let rest = [];
-      if (j === secondArr.length) {
-        rest = firstArr.slice(i);
-      } else {
-        rest = secondArr.slice(j);
-      }
-
-      merged.push(...rest);
-      return merged;
-    }
-
-    if (firstArr[i] < secondArr[j]) {
-      merged[k] = firstArr[i];
-      i++;
+  let arr = [];
+  while (firstArr.length && secondArr.length) {
+    if (firstArr[0] < secondArr[0]) {
+      arr.push(firstArr.shift());
     } else {
-      merged[k] = secondArr[j];
-      j++;
+      arr.push(secondArr.shift());
     }
   }
+  const merged = [...arr, ...firstArr, ...secondArr];
   return merged;
 }
 
