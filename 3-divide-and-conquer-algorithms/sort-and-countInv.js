@@ -73,19 +73,17 @@ function sortAndCountInv(arr) {
   }
 }
 
-let arr1 = [54044, 14108, 79294, 29649, 25260, 60660, 2995, 53777, 49689, 9083];
-let arr2 = [8, 7, 6, 5, 4, 3, 2, 1];
-let arr3 = [1, 3, 5, 2, 4, 6];
-let arr4 = [1, 2, 3, 4, 5, 6, 7, 8];
-let [mergedArr1, invNum1] = sortAndCountInv(arr1);
-console.log("merged arr 1 : " + mergedArr1);
-console.log("number of inversions of arr 1 is " + invNum1);
-let [mergedArr2, invNum2] = sortAndCountInv(arr2);
-console.log("merged arr 2 : " + mergedArr2);
-console.log("number of inversions of arr 2 is " + invNum2);
-let [mergedArr3, invNum3] = sortAndCountInv(arr3);
-console.log("merged arr 3 : " + mergedArr3);
-console.log("number of inversions of arr 3 is " + invNum3);
-let [mergedArr4, invNum4] = sortAndCountInv(arr4);
-console.log("merged arr 4 : " + mergedArr4);
-console.log("number of inversions of arr 4 is " + invNum4);
+/////////////////////// read the assignment txt file and convert it to array ////////////////////
+
+const fs = require("fs");
+
+fs.readFile("arr.txt", "utf8", (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  let arr = data.split("\n").map(Number);
+
+  let [mergedArr1, invNum1] = sortAndCountInv(arr);
+  console.log("number of inversions of arr 1 is " + invNum1);
+});
