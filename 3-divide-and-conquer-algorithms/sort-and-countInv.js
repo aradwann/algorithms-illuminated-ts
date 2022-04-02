@@ -77,7 +77,7 @@ function sortAndCountInv(arr) {
 
 const fs = require("fs");
 
-fs.readFile("arr.txt", "utf8", (err, data) => {
+fs.readFile(`${__dirname}/arr.txt`, "utf8", (err, data) => {
   if (err) {
     console.error(err);
     return;
