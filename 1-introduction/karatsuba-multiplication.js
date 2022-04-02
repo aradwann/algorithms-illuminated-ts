@@ -1,5 +1,5 @@
-let firstHalf = (no, n2) => Number(String(no).slice(0, n2));
-let secondHalf = (no, n2) => Number(String(no).slice(n2, n2 * 2));
+let firstHalf = (no, n2) => BigInt(String(no).slice(0, n2));
+let secondHalf = (no, n2) => BigInt(String(no).slice(n2, n2 * 2));
 
 function karatsuba(x, y) {
   // assume x, y are n-digit positive integers
@@ -23,15 +23,20 @@ function karatsuba(x, y) {
     let ac = karatsuba(a, c);
     let bd = karatsuba(b, d);
     let pq = karatsuba(p, q);
+    ac = Number(ac);
+    bd = Number(bd);
+    pq = Number(pq);
 
     let adbc = pq - ac - bd;
+    adbc = Number(adbc);
+
     let n2 = Math.min(nx2, ny2);
     return Math.pow(10, n2 * 2) * ac + Math.pow(10, n2) * adbc + bd;
   }
 }
 
-let num1 = 13494447;
-let num2 = 98498115;
+let num1 = 3141592653589793238462643383279502884197169399375105820974944592n;
+let num2 = 2718281828459045235360287471352662497757247093699959574966967627n;
 let r = karatsuba(num1, num2);
 let r2 = num1 * num2;
 console.log(r);
