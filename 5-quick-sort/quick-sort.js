@@ -22,7 +22,10 @@ swap A[l] and A[i-1]   // place pivot correctly
 return i-1   // report final pivot position
 */
 
+let globComparisonNum = 0; // to be implemented differently (tracking by recursion)
 function partition(arr, l, r) {
+  globComparisonNum += r - l;
+
   let p = arr[l];
   let i = l + 1;
   for (let j = l + 1; j <= r; j++) {
@@ -41,34 +44,42 @@ function choosePivotAsFirst(arr, l, r) {
 function choosePivotAsFinal(arr, l, r) {
   return r;
 }
+
+function medianIndex(arr, l, r) {
+  let m;
+  const subArrLen = r - l + 1;
+  if (subArrLen % 2) {
+    m = (subArrLen - 1) / 2;
+  } else {
+    m = subArrLen / 2 - 1;
+  }
+  return m + l;
+}
+
 function choosePivotAsMedian(arr, l, r) {
   // choosing pivot element based on median of three rule
   // Consider the first, middle, and final elements of the given array
   // Identify which of these three elements is the median
 
-  // determine the index of the middle element of array
-  let m;
-  if (arr.length % 2) {
-    m = (arr.length - 1) / 2;
-  } else {
-    m = arr.length / 2 - 1;
-  }
+  // determine the index of the middle element of the sub-array
+  let m = medianIndex(arr, l, r);
 
-  let p;
   if (
-    (arr[m] < arr[l] && arr[m] > arr[r]) ||
-    (arr[m] > arr[l] && arr[m] < arr[r])
+    (arr[l] > arr[m] && arr[l] < arr[r]) ||
+    (arr[l] < arr[m] && arr[l] > arr[r])
   ) {
-    p = m;
+    return l;
   } else if (
-    (arr[r] < arr[l] && arr[r] > arr[m]) ||
-    (arr[r] > arr[l] && arr[r] < arr[m])
+    (arr[m] > arr[l] && arr[m] < arr[r]) ||
+    (arr[m] < arr[l] && arr[m] > arr[r])
   ) {
-    p = r;
-  } else {
-    p = l;
+    return m;
+  } else if (
+    (arr[r] > arr[m] && arr[r] < arr[l]) ||
+    (arr[r] < arr[m] && arr[r] > arr[l])
+  ) {
+    return r;
   }
-  return p;
 }
 
 /*
@@ -86,24 +97,37 @@ QuickSort(A, j+1, r)  // recurse on second part
 */
 
 function quickSort(arr, l, r) {
+  // 0- or 1-element subarray
   if (l >= r) {
     return;
   }
-  let i = choosePivotAsFirst(arr, l, r);
 
+  let i = choosePivotAsMedian(arr, l, r);
+
+  // make pivot first
   [arr[l], arr[i]] = [arr[i], arr[l]];
+
+  // j = new pivot position
   let j = partition(arr, l, r);
 
   quickSort(arr, l, j - 1);
   quickSort(arr, j + 1, r);
 }
 
-// let arr = [3, 8, 2, 5, 1, 4, 7, 6];
-// console.log(arr);
-// console.log(choosePivotAsMedian(arr, 0, arr.length - 1));
-// partition(arr, 0, arr.length - 1);
-// quickSort(arr, 0, arr.length - 1);
-// console.log(arr);
+//////////////////////////////// testing /////////////////////////////////////
+/*
+Test case #1: This file contains 10 integers, representing a 10-element array.
+  Your program should count 25 comparisons if you always use the first element as the pivot,
+  31 comparisons if you always use the last element as the pivot,
+  and 21 comparisons if you always use the median-of-3 as the pivot 
+  (not counting the comparisons used to compute the pivot).
+
+Test case #2: This file contains 100 integers, representing a 100-element array. 
+  Your program should count 620 comparisons if you always use the first element as the pivot,
+  573 comparisons if you always use the last element as the pivot, 
+  and 502 comparisons if you always use the median-of-3 as the pivot 
+  (not counting the comparisons used to compute the pivot).
+ */
 
 const fs = require("fs");
 
@@ -114,7 +138,8 @@ fs.readFile(`${__dirname}/arr.txt`, "utf8", (err, data) => {
   }
   let arr = data.split("\n").map(Number);
 
-  console.log(arr);
-  quickSort(arr, 0, arr.length);
-  console.log(arr);
+  quickSort(arr, 0, arr.length - 1);
+  console.log(
+    `the sum on comparisons by choosing pivot  is ${globComparisonNum}`
+  );
 });
