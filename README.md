@@ -13,3 +13,9 @@ notes/ scripts related to Algorithms Illuminated (an alogortihms book series by 
    1. [Big-O Description](2-asymptotic-notaion/big-o.md)
 3. ### Divide and Conquer Algorithms
    1. [Sort and Count Inversions in O(nlog(n))](3-divide-and-conquer-algorithms/sort-and-countInv.js)
+4. ### Quick Sort
+
+   1. [quick sort of average runtime of O(nlog(n))](5-quick-sort/quick-sort.js)
+
+5. ### Radomized Algorithms (Karger Algorithm for solving min Cut graph problem)
+   1. [Karger algorithm](Karger-algorithm/karger-algorithm.js)
