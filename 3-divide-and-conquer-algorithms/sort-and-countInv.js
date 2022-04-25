@@ -1,7 +1,6 @@
-"use strict";
-/* 
+/*
 An inversion of an array: is apair of elements that are out of order
-This is script is an implementation of sort and count inversions algorithm, 
+This is script is an implementation of sort and count inversions algorithm,
 which piggbacks the merge sort algorithms to achieve a fast algorithm
 of O(n.log(n))
 */
@@ -9,7 +8,7 @@ of O(n.log(n))
 /* psoudocode of Merge-and-CountSplitInv
 
 input: sorted arrays C and D (length n/2 each)
-output: sorted array B (length n)  and the number of split inversions 
+output: sorted array B (length n)  and the number of split inversions
 simplifying assumption: n is even
 -------------------------------------------------------------------
 i:=1, j:=1, splitInv := 0
@@ -17,21 +16,24 @@ for k := 1 to n do
   if C[i] < D[j] then
     B[k] := C[i]
     i := i + 1
-  else 
+  else
     B[k] := D[j]
     j := j + 1
     splitInv := splitInv + (n/2 - i + 1)
 */
-
-function MergeAndCountSplitInv(firstArr, secondArr) {
-  // first array and second arrays are two sorted arrays of length n / 2
-  // returns a merged sorted array
-  // assume n is even
-  let i = 0;
-  let j = 0;
-  let n = firstArr.length * 2;
+/**
+ *
+ * @param {Array} firstArr first sorted array of length n / 2
+ * @param {Array} secondArr second sorted array of length n / 2
+ *
+ * assume n is even
+ *
+ * @return {Array} array of two elements,
+ *  the first element is the merged sorted array and second element is the split count
+ */
+function mergeAndCountSplitInv(firstArr, secondArr) {
   let splitInv = 0;
-  let arr = [];
+  const arr = [];
 
   while (firstArr.length && secondArr.length) {
     if (firstArr[0] < secondArr[0]) {
@@ -57,33 +59,41 @@ else
   (B, splitInv) := Merge-and-CountSplitInV(C, D)
   return (B, leftInv + rightInv + splitInv)
 */
+/**
+ *
+ * @param {Array} arr unsorted array
+ * @return {Array}  array of two elements,
+ *  the first element is the merged sorted array and second element is the split count
+ */
 function sortAndCountInv(arr) {
   // assume len is even
-  let len = arr.length;
+  const len = arr.length;
   if (len <= 1) {
     // base case
     return [arr, 0];
-  } else {
-    // recursive cases
-    let [firstArr, leftInv] = sortAndCountInv(arr.slice(0, len / 2));
-    let [secondArr, rightInv] = sortAndCountInv(arr.slice(len / 2));
-    let [mergedArr, splitInv] = MergeAndCountSplitInv(firstArr, secondArr);
-    const invCount = leftInv + rightInv + splitInv;
-    return [mergedArr, invCount];
   }
+  // recursive cases
+  const [firstArr, leftInv] = sortAndCountInv(arr.slice(0, len / 2));
+  const [secondArr, rightInv] = sortAndCountInv(arr.slice(len / 2));
+  const [mergedArr, splitInv] = mergeAndCountSplitInv(firstArr, secondArr);
+  const invCount = leftInv + rightInv + splitInv;
+  return [mergedArr, invCount];
 }
 
-/////////////////////// read the assignment txt file and convert it to array ////////////////////
+export default sortAndCountInv;
+// /////// read the assignment txt file and convert it to array ////////////
+import fs from "fs";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
-const fs = require("fs");
+const filename = "arr";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-fs.readFile(`${__dirname}/arr.txt`, "utf8", (err, data) => {
+fs.readFile(`${__dirname}/${filename}.txt`, "utf8", (err, data) => {
   if (err) {
     console.error(err);
     return;
   }
-  let arr = data.split("\n").map(Number);
-
-  let [mergedArr1, invNum1] = sortAndCountInv(arr);
-  console.log("number of inversions of arr 1 is " + invNum1);
+  const arr = data.split("\n").map(Number);
+  sortAndCountInv(arr);
 });

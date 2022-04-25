@@ -1,0 +1,30 @@
+{
+  "name": "algorithms-illuminated",
+  "version": "1.0.0",
+  "description": "notes and script / my implementations to algorithms used in programming problems in algorithms illuminted book",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "tap",
+    "lint": "eslint . --fix",
+    "format": "npx prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aradwann/algorithms-illuminated.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aradwann/algorithms-illuminated/issues"
+  },
+  "homepage": "https://github.com/aradwann/algorithms-illuminated#readme",
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.6.2",
+    "tap": "^16.0.1"
+  }
+}

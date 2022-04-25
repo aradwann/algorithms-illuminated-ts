@@ -20,11 +20,11 @@ c and n0 such that
 
 T (n) <= c · f (n)
 
-for all n >= n0 
+for all n >= n0
 
 ## Big-Omega Notation (Mathematical Version)
 
 T (n) = $\Omega$(f (n)) if and only if there exist positive constants
-c and n0 such that:   T (n) >= c.f(n)
+c and n0 such that: T (n) >= c.f(n)
 
 for all n >= n0
