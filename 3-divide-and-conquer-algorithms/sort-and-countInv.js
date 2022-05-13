@@ -31,20 +31,24 @@ for k := 1 to n do
  * @return {Array} array of two elements,
  *  the first element is the merged sorted array and second element is the split count
  */
-function mergeAndCountSplitInv(firstArr, secondArr) {
-  let splitInv = 0;
-  const arr = [];
+// /////// read the assignment txt file and convert it to array ////////////
+import fs from 'fs'
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
+function mergeAndCountSplitInv (firstArr, secondArr) {
+  let splitInv = 0
+  const arr = []
 
   while (firstArr.length && secondArr.length) {
     if (firstArr[0] < secondArr[0]) {
-      arr.push(firstArr.shift());
+      arr.push(firstArr.shift())
     } else {
-      arr.push(secondArr.shift());
-      splitInv += firstArr.length;
+      arr.push(secondArr.shift())
+      splitInv += firstArr.length
     }
   }
-  const merged = [...arr, ...firstArr, ...secondArr];
-  return [merged, splitInv];
+  const merged = [...arr, ...firstArr, ...secondArr]
+  return [merged, splitInv]
 }
 /* psoudocode of Sort-and-CountInv
 
@@ -65,35 +69,31 @@ else
  * @return {Array}  array of two elements,
  *  the first element is the merged sorted array and second element is the split count
  */
-function sortAndCountInv(arr) {
+function sortAndCountInv (arr) {
   // assume len is even
-  const len = arr.length;
+  const len = arr.length
   if (len <= 1) {
     // base case
-    return [arr, 0];
+    return [arr, 0]
   }
   // recursive cases
-  const [firstArr, leftInv] = sortAndCountInv(arr.slice(0, len / 2));
-  const [secondArr, rightInv] = sortAndCountInv(arr.slice(len / 2));
-  const [mergedArr, splitInv] = mergeAndCountSplitInv(firstArr, secondArr);
-  const invCount = leftInv + rightInv + splitInv;
-  return [mergedArr, invCount];
+  const [firstArr, leftInv] = sortAndCountInv(arr.slice(0, len / 2))
+  const [secondArr, rightInv] = sortAndCountInv(arr.slice(len / 2))
+  const [mergedArr, splitInv] = mergeAndCountSplitInv(firstArr, secondArr)
+  const invCount = leftInv + rightInv + splitInv
+  return [mergedArr, invCount]
 }
 
-export default sortAndCountInv;
-// /////// read the assignment txt file and convert it to array ////////////
-import fs from "fs";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+export default sortAndCountInv
 
-const filename = "arr";
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const filename = 'arr'
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
-fs.readFile(`${__dirname}/${filename}.txt`, "utf8", (err, data) => {
+fs.readFile(`${__dirname}/${filename}.txt`, 'utf8', (err, data) => {
   if (err) {
-    console.error(err);
-    return;
+    console.error(err)
+    return
   }
-  const arr = data.split("\n").map(Number);
-  sortAndCountInv(arr);
-});
+  const arr = data.split('\n').map(Number)
+  sortAndCountInv(arr)
+})
