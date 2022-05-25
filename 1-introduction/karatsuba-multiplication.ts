@@ -1,6 +1,11 @@
-// defining the first half and the second half of a Number
-const firstHalf = (no, n2) => BigInt(String(no).slice(0, n2))
-const secondHalf = (no, n2) => BigInt(String(no).slice(n2, n2 * 2))
+
+function splitNumberIntoHalves (n:number):Array<number> {
+  const numberLen = String(n).length
+  const halfNumberLen = Math.round(numberLen / 2)
+  const firstHalf = Number(String(n).slice(0, halfNumberLen))
+  const secondHalf = Number(String(n).slice(halfNumberLen, numberLen))
+  return [firstHalf, secondHalf]
+}
 
 /**
  * multiplie two numbers together using karatsuba algorithm.
@@ -8,21 +13,16 @@ const secondHalf = (no, n2) => BigInt(String(no).slice(n2, n2 * 2))
  * @param {int} y The second number.
  * @return {int} The multiplication of the two numbers.
  */
-function karatsuba (x, y) {
+function karatsuba (x:number, y: number):number {
   // assume x, y are n-digit positive integers
   // assume  n is a power of two
 
   if (x < 10 || y < 10) {
     return x * y
   }
-  const nx = String(x).length
-  const ny = String(y).length
-  const nx2 = Math.round(nx / 2)
-  const ny2 = Math.round(ny / 2)
-  const a = firstHalf(x, nx2)
-  const b = secondHalf(x, nx2)
-  const c = firstHalf(y, ny2)
-  const d = secondHalf(y, ny2)
+
+  const [a, b] = splitNumberIntoHalves(x)
+  const [c, d] = splitNumberIntoHalves(y)
 
   const p = a + b
   const q = c + d
@@ -37,7 +37,7 @@ function karatsuba (x, y) {
   let adbc = pq - ac - bd
   adbc = Number(adbc)
 
-  const n2 = Math.min(nx2, ny2)
+  const n2 = Math.min(String(x).length, String(y).length)
   return 10 ** (n2 * 2) * ac + 10 ** n2 * adbc + bd
 }
 

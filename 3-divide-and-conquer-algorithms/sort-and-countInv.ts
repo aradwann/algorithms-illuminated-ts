@@ -31,19 +31,16 @@ for k := 1 to n do
  * @return {Array} array of two elements,
  *  the first element is the merged sorted array and second element is the split count
  */
-// /////// read the assignment txt file and convert it to array ////////////
-import fs from 'fs'
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
-function mergeAndCountSplitInv (firstArr, secondArr) {
+
+function mergeAndCountSplitInv (firstArr:Array<number>, secondArr:Array<number>):[Array<number>, number] {
   let splitInv = 0
   const arr = []
 
   while (firstArr.length && secondArr.length) {
     if (firstArr[0] < secondArr[0]) {
-      arr.push(firstArr.shift())
+      arr.push(firstArr.shift()!)
     } else {
-      arr.push(secondArr.shift())
+      arr.push(secondArr.shift()!)
       splitInv += firstArr.length
     }
   }
@@ -69,7 +66,7 @@ else
  * @return {Array}  array of two elements,
  *  the first element is the merged sorted array and second element is the split count
  */
-function sortAndCountInv (arr) {
+function sortAndCountInv (arr:Array<number>):[Array<number>, number] {
   // assume len is even
   const len = arr.length
   if (len <= 1) {
@@ -85,15 +82,3 @@ function sortAndCountInv (arr) {
 }
 
 export default sortAndCountInv
-
-const filename = 'arr'
-const __dirname = dirname(fileURLToPath(import.meta.url))
-
-fs.readFile(`${__dirname}/${filename}.txt`, 'utf8', (err, data) => {
-  if (err) {
-    console.error(err)
-    return
-  }
-  const arr = data.split('\n').map(Number)
-  sortAndCountInv(arr)
-})

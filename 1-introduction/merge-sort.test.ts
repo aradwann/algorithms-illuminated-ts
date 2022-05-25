@@ -1,4 +1,4 @@
-import mergeSort from './merge-sort.js'
+import mergeSort from './merge-sort'
 import tap from 'tap'
 
 const arr = [85, 9, 11, 27, 73, 74, 58, 23]

@@ -3,13 +3,9 @@
   "version": "1.0.0",
   "description": "notes and script / my implementations to algorithms used in programming problems in algorithms illuminted book",
   "main": "index.js",
-  "type": "module",
+  
   "scripts": {
-    "test": "standard && tap"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/aradwann/algorithms-illuminated.git"
+    "test": "tap --ts"
   },
   "author": "",
   "license": "ISC",
@@ -18,7 +14,17 @@
   },
   "homepage": "https://github.com/aradwann/algorithms-illuminated#readme",
   "devDependencies": {
-    "standard": "^17.0.0",
-    "tap": "^16.0.1"
+    "@types/node": "^17.0.33",
+    "@types/tap": "^15.0.7",
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "@typescript-eslint/parser": "^5.23.0",
+    "eslint": "^8.15.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "tap": "^16.2.0",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
   }
 }
