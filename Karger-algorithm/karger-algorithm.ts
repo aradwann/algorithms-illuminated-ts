@@ -1,14 +1,19 @@
 /**
  * Graph class with vertices and edges
  */
+import path from 'path'
+import { convertTxtToGraphSync } from '../utils/utils'
+
+type Edge = [number, number]
+type Edges = Array<Edge>
+type Vertices = Array<number>
+
 class Graph {
+  vertices: Vertices
+  edges: Edges
   // assume vertices are sorted ascendingly
-  /**
-   * constructor for a graph with vertices and edges arrays
-   * @param {[Number]} vertices
-   * @param {{Number}} edges
-   */
-  constructor (vertices = [], edges = []) {
+
+  constructor (vertices :Vertices, edges :Edges) {
     this.vertices = vertices
     this.edges = edges
   }
@@ -40,7 +45,7 @@ return modified G
    *
    * @param {Number} choosenEdgeIndex
    */
-  conractEdge (choosenEdgeIndex) {
+  conractEdge (choosenEdgeIndex:number) {
     // let v1 and v2 are the vertices of the contracted edge
     const [v1, v2] = this.edges[choosenEdgeIndex]
     const v3 = this.vertices[this.vertices.length - 1] + 1
@@ -112,50 +117,24 @@ return modified G
   }
 }
 
-const fs = require('fs')
-const path = require('path')
+export default Graph
+export { Edge }
+
 const p = path.join(__dirname, '/graph.txt')
 
-fs.readFile(p, 'utf8', (err, data) => {
-  if (err) {
-    console.error(err)
-    return
-  }
-  const arrs = data.split('\n').map((arr) => arr.split('\t').map(Number))
-  const graph = new Graph()
-  // console.log(` arrs before pushing vertices ${arrs}`);
+const graph = convertTxtToGraphSync(p)
+// karger algorithm has a very low probability of finding the min cut
+// but it has a good change of finding the min cut after repeating the algorithm serveral times
+// and saving the results in a memory (array) to get the minimum result in it
+// here i am using just an estimate for number of repeats
+const minCutMemory = []
+const num = graph.edges.length ** 2
+for (let i = 0; i < num; i++) {
+  // start karger
+  const minCut = graph.karger()
+  minCutMemory.push(minCut)
+}
+const min = minCutMemory.reduce((acc: number, val: number) => Math.min(acc, val), Infinity)
 
-  // push vertices to graph
-  for (const arr of arrs) {
-    const v = arr.splice(0, 1)
-    graph.vertices.push(v[0])
-  }
-  // console.log("arrs after pushing vertices ", arrs);
-
-  // push edges to graph
-  for (let i = 0; i < arrs.length; i++) {
-    const arr = arrs[i]
-
-    for (const element of arr) {
-      // console.log("element is ", element);
-      // because I don't want repeated edges...
-      // assuming there is no parallel edges at the original graph
-      if (element > i + 1) {
-        const edge = [i + 1, element]
-        graph.edges.push(edge)
-      }
-    }
-  }
-  // karger algorithm has a very low probability of finding the min cut
-  // but it has a good change of finding the min cut after repeating the algorithm serveral times
-  // and saving the results in a memory (array) to get the minimum result in it
-  // here i am using just an estimate for number of repeats
-  const minCutMemory = []
-  const num = graph.edges.length
-  for (let i = 0; i < num; i++) {
-    // start karger
-    const minCut = graph.karger()
-    minCutMemory.push(minCut)
-  }
-  console.log(Math.min(...minCutMemory))
-})
+// console.log(Math.min(...minCutMemory))
+console.log(min)
