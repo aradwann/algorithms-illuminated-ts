@@ -1,13 +1,9 @@
-import fs from 'fs'
-import path from 'path'
+import fs, { PathLike } from 'fs'
 
-function convertTxtToArrSync (relativePath:string): Array<number> {
+function convertTxtToArrSync (path:PathLike): Array<number> {
   // /////// read the assignment txt file and convert it to array ////////////
 
-  const p = path.resolve(__dirname, relativePath)
-  console.log(p)
-
-  const data = fs.readFileSync(p, { encoding: 'utf8' })
+  const data = fs.readFileSync(path, { encoding: 'utf8' })
 
   const arr = data.split('\n').map(Number)
   return arr

@@ -1,7 +1,11 @@
 import { convertTxtToArrSync } from './utils'
 import tap from 'tap'
+import path from 'path'
 
-tap.strictSame(convertTxtToArrSync('./test-arr.txt'), [54044,
+const relativePath = './test-arr.txt'
+const p = path.resolve(__dirname, relativePath)
+
+tap.strictSame(convertTxtToArrSync(p), [54044,
   14108,
   79294,
   29649,

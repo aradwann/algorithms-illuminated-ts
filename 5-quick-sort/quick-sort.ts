@@ -3,7 +3,11 @@ Quick sort is an algorithms for sorting of time complexity of O(n.log(n))
 but it has a merit above merge sort that:
  it sorts array in place (space cpmplexity of O(1))
 */
-
+enum choosePivotMethodEnum {
+  "first",
+  "median",
+  "final",
+}
 // to be implemented differently (tracking by recursion)
 // ////////////////////////////// testing /////////////////////////////////////
 /*
@@ -20,9 +24,8 @@ Test case #2: This file contains 100 integers, representing a 100-element array.
   (not counting the comparisons used to compute the pivot).
  */
 
-import fs from 'fs'
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
+import { convertTxtToArrSync } from '../utils/utils'
+import path from 'path'
 
 let globComparisonNum = 0
 /**
@@ -51,7 +54,7 @@ return i-1   // report final pivot position
  * @param {Number} r right endpoint (the ending of the subarray)
  * @return {Number} the final position of the pivot element
  */
-function partition (arr, l, r) {
+function partition (arr:number[], l:number, r:number) {
   globComparisonNum += r - l
 
   const p = arr[l]
@@ -65,6 +68,7 @@ function partition (arr, l, r) {
   [arr[l], arr[i - 1]] = [arr[i - 1], arr[l]]
   return i - 1
 }
+
 /**
  * returns the index of the first element in the sub array
  * @param {Array} arr array(that contain subarray of beginning l and ending r endpoints)
@@ -72,7 +76,8 @@ function partition (arr, l, r) {
  * @param {Number} r right endpoint (the ending of the subarray)
  * @return {Number} l (the ending of the subarray)
  */
-function choosePivotAsFirst (arr, l, r) {
+// eslint-disable-next-line no-unused-vars
+function choosePivotAsFirst (arr:number[], l:number, r:number): number {
   return l
 }
 /**
@@ -82,7 +87,8 @@ function choosePivotAsFirst (arr, l, r) {
  * @param {Number} r right endpoint (the ending of the subarray)
  * @return {Number} r (the ending of the subarray)
  */
-function choosePivotAsFinal (arr, l, r) {
+// eslint-disable-next-line no-unused-vars
+function choosePivotAsFinal (arr:number[], l:number, r:number):number {
   return r
 }
 
@@ -93,7 +99,7 @@ function choosePivotAsFinal (arr, l, r) {
  * @param {Number} r right endpoint (the ending of the subarray)
  * @return {Number} m + l ( index of the median of the subarray)
  */
-function medianIndex (arr, l, r) {
+function medianIndex (arr:number[], l:number, r:number):number {
   let m
   const subArrLen = r - l + 1
   if (subArrLen % 2) {
@@ -114,7 +120,7 @@ function medianIndex (arr, l, r) {
  * @param {Number} r right endpoint (the ending of the subarray)
  * @return {Number}  ( index of the median of the three)
  */
-function choosePivotAsMedian (arr, l, r) {
+function choosePivotAsMedian (arr:number[], l:number, r:number):number {
   // determine the index of the middle element of the sub-array
   const m = medianIndex(arr, l, r)
 
@@ -123,19 +129,20 @@ function choosePivotAsMedian (arr, l, r) {
     (arr[l] < arr[m] && arr[l] > arr[r])
   ) {
     return l
-  }
-  if (
+  } else if (
     (arr[m] > arr[l] && arr[m] < arr[r]) ||
     (arr[m] < arr[l] && arr[m] > arr[r])
   ) {
     return m
-  }
-  if (
-    (arr[r] > arr[m] && arr[r] < arr[l]) ||
-    (arr[r] < arr[m] && arr[r] > arr[l])
-  ) {
+  } else {
     return r
   }
+  // if (
+  //   (arr[r] > arr[m] && arr[r] < arr[l]) ||
+  //   (arr[r] < arr[m] && arr[r] > arr[l])
+  // ) {
+  //   return r
+  // }
 }
 
 /**
@@ -157,7 +164,7 @@ function choosePivotAsMedian (arr, l, r) {
  * @param {Number} l left endpoint (the begining of the subarray)
  * @param {Number} r right endpoint (the ending of the subarray)
  */
-function quickSort (arr, l, r) {
+ function quickSort (arr:number[], l:number, r:number) {
   // 0- or 1-element subarray
   if (l >= r) {
     return
@@ -175,17 +182,12 @@ function quickSort (arr, l, r) {
   quickSort(arr, j + 1, r)
 }
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+export default quickSort
+export { choosePivotAsFinal, choosePivotAsMedian, choosePivotAsFirst }
 
-fs.readFile(`${__dirname}/test1.txt`, 'utf8', (err, data) => {
-  if (err) {
-    console.error(err)
-    return
-  }
-  const arr = data.split('\n').map(Number)
+const relativePath = './test1.txt'
+const p = path.resolve(__dirname, relativePath)
+const arr = convertTxtToArrSync(p)
+quickSort(arr, 0, arr.length)
 
-  quickSort(arr, 0, arr.length - 1)
-  console.log(
-    `the sum on comparisons by choosing pivot  is ${globComparisonNum}`
-  )
-})
+console.log(globComparisonNum)
