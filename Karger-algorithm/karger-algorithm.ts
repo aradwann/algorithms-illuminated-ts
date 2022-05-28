@@ -1,8 +1,8 @@
 /**
  * Graph class with vertices and edges
  */
-import path from 'path'
-import { convertTxtToGraphSync } from '../utils/utils'
+// import path from 'path'
+// import { convertTxtToGraphSync } from '../utils/utils'
 
 type Edge = [number, number]
 type Edges = Array<Edge>
@@ -120,21 +120,21 @@ return modified G
 export default Graph
 export { Edge }
 
-const p = path.join(__dirname, '/graph.txt')
+// const p = path.join(__dirname, '/graph.txt')
 
-const graph = convertTxtToGraphSync(p)
-// karger algorithm has a very low probability of finding the min cut
-// but it has a good change of finding the min cut after repeating the algorithm serveral times
-// and saving the results in a memory (array) to get the minimum result in it
-// here i am using just an estimate for number of repeats
-const minCutMemory = []
-const num = graph.edges.length ** 2
-for (let i = 0; i < num; i++) {
-  // start karger
-  const minCut = graph.karger()
-  minCutMemory.push(minCut)
-}
-const min = minCutMemory.reduce((acc: number, val: number) => Math.min(acc, val), Infinity)
+// const graph = convertTxtToGraphSync(p)
+// // karger algorithm has a very low probability of finding the min cut
+// // but it has a good change of finding the min cut after repeating the algorithm serveral times
+// // and saving the results in a memory (array) to get the minimum result in it
+// // here i am using just an estimate for number of repeats
+// const minCutMemory = []
+// const num = graph.edges.length ** 2
+// for (let i = 0; i < num; i++) {
+//   // start karger
+//   const minCut = graph.karger()
+//   minCutMemory.push(minCut)
+// }
+// const min = minCutMemory.reduce((acc: number, val: number) => Math.min(acc, val), Infinity)
 
-// console.log(Math.min(...minCutMemory))
-console.log(min)
+// // console.log(Math.min(...minCutMemory))
+// console.log(min)
