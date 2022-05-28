@@ -1,5 +1,5 @@
 
-function splitNumberIntoHalves (n:number):Array<number> {
+function splitNumberIntoHalves (n:number):[number, number] {
   const numberLen = String(n).length
   const halfNumberLen = Math.round(numberLen / 2)
   const firstHalf = Number(String(n).slice(0, halfNumberLen))
@@ -17,7 +17,7 @@ function karatsuba (x:number, y: number):number {
   // assume x, y are n-digit positive integers
   // assume  n is a power of two
 
-  if (x < 10 || y < 10) {
+  if (x < 10 && y < 10) {
     return x * y
   }
 
@@ -38,7 +38,7 @@ function karatsuba (x:number, y: number):number {
   adbc = Number(adbc)
 
   const n2 = Math.min(String(x).length, String(y).length)
-  return 10 ** (n2 * 2) * ac + 10 ** n2 * adbc + bd
+  return (10 ** (n2)) * ac + (10 ** (n2 / 2)) * adbc + bd
 }
 
 export default karatsuba
